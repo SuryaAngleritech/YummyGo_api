@@ -295,6 +295,7 @@ exports.updatestatus = function (event, context) {
       context.done(
         null,
         send_response(200, {
+          statusCode: 200,
           Message: "updated Successfully",
         })
       );
