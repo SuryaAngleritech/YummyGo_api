@@ -6,9 +6,10 @@ const { sendFCM_NV } = require("../../firebase");
 const { Sequelize, QueryTypes, JSON } = require("sequelize");
 const videoFile = "../video/video.mp4";
 var multiparty = require("multiparty");
-const ffmpegPath = require("@ffmpeg-installer/ffmpeg").path;
-const ffmpeg = require("fluent-ffmpeg");
+//const ffmpegPath = require("@ffmpeg-installer/ffmpeg").path;
+//const ffmpeg = require("fluent-ffmpeg");
 const { json } = require("body-parser");
+//var upload = multer().single();
 // const { json } = require("body-parser");
 // ffmpeg.setFfmpegPath(ffmpegPath);
 const Video = db.video;
@@ -16,36 +17,49 @@ const Video_like = db.like_detail;
 
 exports.createVideo = function (event, context) {
   var _data = event.body;
-  const file = event.files.doc_video;
+  const video = event.files.doc_video;
   //const file01 = event.files.files;
   console.log("request", _data);
   //let process = new ffmpeg(file01._data);
 
-  uploadFile(file, "myvideos")
-    .then((fileurl) => {
-      console.log(fileurl);
-      console.log(new Date());
-      console.log("data", data);
-      Video.create({
-        profile_id: _data.user_id,
-        video_link: fileurl,
-        video_type: _data.type,
-        video_note: _data.note,
-        video_status: "A",
-      })
-        .then((video) => {
-          console.log("video", video);
-          context.done(null, send_response(200, video));
-        })
-        .catch((err) => {
-          console.log(err);
-          context.done(null, send_response(500, { message: err.message }));
-        });
-    })
-    .catch((err) => {
-      console.log("err", err);
-      // context.done(null, send_response(err.status_code ? err.status_code : 400, { message: err.message }));
-    });
+  var file = __dirname + "/" + video;
+  fs.rename(req.file.path, file, function (err) {
+    if (err) {
+      console.log(err);
+      res.send(500);
+    } else {
+      res.json({
+        message: "File uploaded successfully",
+        filename: req.file.filename,
+      });
+    }
+  });
+
+  // uploadFile(file, "myvideos")
+  //   .then((fileurl) => {
+  //     console.log(fileurl);
+  //     console.log(new Date());
+  //     console.log("data", data);
+  //     Video.create({
+  //       profile_id: _data.user_id,
+  //       video_link: fileurl,
+  //       video_type: _data.type,
+  //       video_note: _data.note,
+  //       video_status: "A",
+  //     })
+  //       .then((video) => {
+  //         console.log("video", video);
+  //         context.done(null, send_response(200, video));
+  //       })
+  //       .catch((err) => {
+  //         console.log(err);
+  //         context.done(null, send_response(500, { message: err.message }));
+  //       });
+  //   })
+  //   .catch((err) => {
+  //     console.log("err", err);
+  //     // context.done(null, send_response(err.status_code ? err.status_code : 400, { message: err.message }));
+  //   });
 };
 
 exports.createVideo_test = function (event, context) {

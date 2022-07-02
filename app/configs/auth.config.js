@@ -10,8 +10,8 @@ module.exports = {
   },
 
   smtp: {
-    sender: "syncorpenquiry@gmail.com", // enquiry@careerin.care', syncorpinfo
-    password: "foodie@2021", // syncorpinfo2021
+    sender: "developer@theyummygo.com", // enquiry@careerin.care', syncorpinfo syncorpenquiry@gmail.com
+    password: "foodie@2021", // syncorpinfo2021 foodie@2021
     host: "smtpout.secureserver.net",
     port: 587,
   },

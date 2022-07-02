@@ -1,7 +1,7 @@
 const controller = require("../controllers/video");
 
 const multer = require("multer");
-const upload = multer({ dest: "uploads/" });
+//const upload = multer().single();
 
 module.exports = function (app, event) {
   app.post("/videos", function (req, res) {
